@@ -33,7 +33,7 @@ fi
 echo "*******************************************************************************"
 echo "start run tests..."
 
-./${project} --gtest_color=yes $1 $2
+./${project}
 
 if [ $? -ne 0 ]; then
     echo "build ${working_path} fail"

@@ -30,16 +30,15 @@ test/*.cpp
 test/*.cc
 test/*.c)
 
-link_directories("${CMAKE_CURRENT_SOURCE_DIR}/3th/lib")
 set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE})
 
 add_executable(${proj_name} ${all_files})
 
 if(${c_type} STREQUAL "64Bits")
     message("-- links this project as 64Bits")
-    target_link_libraries(${proj_name} gtest mockcpp64 pthread stdc++)
+    target_link_libraries(${proj_name} pthread stdc++)
 else()
     message("-- links this project as 32Bits")
-    target_link_libraries(${proj_name} gtest mockcpp32 pthread stdc++)
+    target_link_libraries(${proj_name} pthread stdc++)
 endif()
 
