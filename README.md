@@ -1,2 +1,2 @@
 # ContainerClass
-Realize a simple container class.
+Realize a simple array container class.
