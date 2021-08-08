@@ -16,18 +16,6 @@ struct IntArray
         }
     }
 
-    IntArray(int length, int value) : length(length)
-    {
-        if(this->length > 0)
-        {
-            this->data = new int[this->length]{};
-        }
-        for(int idx = 0; idx < this->length; ++idx)
-        {
-            this->data[idx] = value;
-        }
-    }
-
     ~IntArray()
     {
         delete[] this->data;
@@ -40,7 +28,7 @@ struct IntArray
         this->length = 0;
     }
 
-    int operator [](int idx) const
+    int& operator [](int idx) const
     {
         assert(idx >= 0 and idx < this->length);
         return this->data[idx];
@@ -142,7 +130,7 @@ struct IntArray
         insertBefore(value, this->length);
     }
 
-    int getLen() const
+    int size() const
     {
         return this->length;
     }

@@ -34,3 +34,5 @@
 #Others
 config.cmake
 build/
+.cproject
+.project
