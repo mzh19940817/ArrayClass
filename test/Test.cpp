@@ -1,9 +1,9 @@
-#include "IntArray.h"
+#include "Array.h"
 #include "gtest/gtest.h"
 
-struct IntArrayTest : testing::Test
+struct ArrayTest : testing::Test
 {
-    void initArr(IntArray& array) const
+    void initIntArr(Array<int>& array) const
     {
         for(int idx = 0; idx < array.size(); ++idx)
         {
@@ -11,7 +11,7 @@ struct IntArrayTest : testing::Test
         }
     }
 
-    void assertArr(const IntArray& array, const int num) const
+    void assertIntArr(const Array<int>& array, const int num) const
     {
         ASSERT_EQ(num, array.size());
         for(int idx = 0; idx < array.size(); ++idx)
@@ -19,72 +19,85 @@ struct IntArrayTest : testing::Test
             ASSERT_EQ(array[idx], idx);
         }
     }
+
+    void initDoubleArr(Array<double>& array) const
+    {
+        for(int idx = 0; idx < array.size(); ++idx)
+        {
+            array[idx] = idx + 0.1;
+        }
+    }
+
+    void assertDoubleArr(const Array<double>& array, const int num) const
+    {
+        ASSERT_EQ(num, array.size());
+    }
 };
 
-TEST_F(IntArrayTest, test_constructor)
+TEST_F(ArrayTest, test_constructor)
 {
-    IntArray array{3};
-    initArr(array);
-    assertArr(array, 3);
+    Array<int> array{3};
+    initIntArr(array);
+    assertIntArr(array, 3);
 }
 
-TEST_F(IntArrayTest, test_copy_constructor)
+TEST_F(ArrayTest, test_copy_constructor)
 {
-    IntArray array{3};
-    initArr(array);
-    assertArr(array, 3);
+    Array<int> array{3};
+    initIntArr(array);
+    assertIntArr(array, 3);
 
-    IntArray arrayTmp{array};
-    assertArr(arrayTmp, 3);
+    Array<int> arrayTmp{array};
+    assertIntArr(arrayTmp, 3);
 }
 
-TEST_F(IntArrayTest, test_assignment_constructor)
+TEST_F(ArrayTest, test_assignment_constructor)
 {
-    IntArray array{3};
-    initArr(array);
-    assertArr(array, 3);
+    Array<int> array{3};
+    initIntArr(array);
+    assertIntArr(array, 3);
 
-    IntArray arrayTmp = array;
-    assertArr(arrayTmp, 3);
+    Array<int> arrayTmp = array;
+    assertIntArr(arrayTmp, 3);
 }
 
-TEST_F(IntArrayTest, test_function_size)
+TEST_F(ArrayTest, test_function_size)
 {
-    IntArray array{3};
-    initArr(array);
+    Array<int> array{3};
+    initIntArr(array);
     ASSERT_EQ(3, array.size());
 }
 
-TEST_F(IntArrayTest, test_function_erase)
+TEST_F(ArrayTest, test_function_erase)
 {
-    IntArray array{3};
+    Array<int> array{3};
     ASSERT_EQ(3, array.size());
 
     array.erase();
     ASSERT_EQ(0, array.size());
 }
 
-TEST_F(IntArrayTest, test_function_overrided_operator)
+TEST_F(ArrayTest, test_function_overrided_operator)
 {
-    IntArray array{1};
-    initArr(array);
+    Array<int> array{1};
+    initIntArr(array);
     ASSERT_EQ(0, array[0]);
 }
 
-TEST_F(IntArrayTest, test_function_reallocate)
+TEST_F(ArrayTest, test_function_reallocate)
 {
-    IntArray array{3};
+    Array<int> array{3};
     ASSERT_EQ(3, array.size());
 
     array.reallocate(1);
     ASSERT_EQ(1, array.size());
 }
 
-TEST_F(IntArrayTest, test_function_resize)
+TEST_F(ArrayTest, test_function_resize)
 {
-    IntArray array{3};
-    initArr(array);
-    assertArr(array, 3);
+    Array<int> array{3};
+    initIntArr(array);
+    assertIntArr(array, 3);
 
     array.resize(2);
     ASSERT_EQ(2, array.size());
@@ -92,11 +105,11 @@ TEST_F(IntArrayTest, test_function_resize)
     ASSERT_EQ(1, array[1]);
 }
 
-TEST_F(IntArrayTest, test_function_remove)
+TEST_F(ArrayTest, test_function_remove)
 {
-    IntArray array{3};
-    initArr(array);
-    assertArr(array, 3);
+    Array<int> array{3};
+    initIntArr(array);
+    assertIntArr(array, 3);
 
     array.remove(1);
     ASSERT_EQ(2, array.size());
@@ -104,11 +117,11 @@ TEST_F(IntArrayTest, test_function_remove)
     ASSERT_EQ(2, array[1]);
 }
 
-TEST_F(IntArrayTest, test_function_insert)
+TEST_F(ArrayTest, test_function_insert)
 {
-    IntArray array{2};
-    initArr(array);
-    assertArr(array, 2);
+    Array<int> array{2};
+    initIntArr(array);
+    assertIntArr(array, 2);
 
     array.insertBefore(3, 1);
     ASSERT_EQ(3, array.size());
@@ -117,11 +130,11 @@ TEST_F(IntArrayTest, test_function_insert)
     ASSERT_EQ(1, array[2]);
 }
 
-TEST_F(IntArrayTest, test_function_insert_at_begining)
+TEST_F(ArrayTest, test_function_insert_at_begining)
 {
-    IntArray array{1};
-    initArr(array);
-    assertArr(array, 1);
+    Array<int> array{1};
+    initIntArr(array);
+    assertIntArr(array, 1);
 
     array.insertAtBegining(3);
     ASSERT_EQ(2, array.size());
@@ -129,15 +142,30 @@ TEST_F(IntArrayTest, test_function_insert_at_begining)
     ASSERT_EQ(0, array[1]);
 }
 
-TEST_F(IntArrayTest, test_function_insert_at_end)
+TEST_F(ArrayTest, test_function_insert_at_end)
 {
-    IntArray array{1};
-    initArr(array);
-    assertArr(array, 1);
+    Array<int> array{1};
+    initIntArr(array);
+    assertIntArr(array, 1);
 
     array.insertAtEnd(3);
     ASSERT_EQ(2, array.size());
     ASSERT_EQ(0, array[0]);
     ASSERT_EQ(3, array[1]);
+}
+
+TEST_F(ArrayTest, test_double_array_size)
+{
+    Array<double> array{3};
+    initDoubleArr(array);
+    assertDoubleArr(array, 3);
+}
+
+TEST_F(ArrayTest, test_double_array_operator)
+{
+    Array<double> array{2};
+    initDoubleArr(array);
+    ASSERT_TRUE(array[0] - 0.1 < 1e-3);
+    ASSERT_TRUE(array[1] - 1.1 < 1e-3);
 }
 

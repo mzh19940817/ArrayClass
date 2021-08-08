@@ -3,26 +3,27 @@
 
 #include <cassert>
 
-struct IntArray
+template<typename T>
+struct Array
 {
-    IntArray() = default;
+    Array() = default;
 
-    IntArray(int length) : len(length)
+    Array(int length) : len(length)
     {
         assert(this->len >= 0);
         if(this->len > 0)
         {
-            this->data = new int[this->len]{};
+            this->data = new T[this->len]{};
         }
     }
 
-    IntArray(const IntArray& array)
+    Array(const Array& array)
     {
         this->len = array.size();
         setData(array);
     }
 
-    IntArray& operator=(const IntArray& array)
+    Array& operator=(const Array& array)
     {
         if(this == &array)
         {
@@ -36,7 +37,7 @@ struct IntArray
         return *this;
     }
 
-    ~IntArray()
+    ~Array()
     {
         delete[] this->data;
     }
@@ -48,7 +49,7 @@ struct IntArray
         this->len = 0;
     }
 
-    int& operator [](int idx) const
+    T& operator [](int idx) const
     {
         assert(idx >= 0 and idx < this->len);
         return this->data[idx];
@@ -63,7 +64,7 @@ struct IntArray
             return ;
         }
 
-        this->data = new int[newLen]{};
+        this->data = new T[newLen]{};
         this->len = newLen;
     }
 
@@ -80,7 +81,7 @@ struct IntArray
             return ;
         }
 
-        int* tmpData = new int[newLen]{};
+        int* tmpData = new T[newLen]{};
         if(this->len > 0)
         {
             int copyNum = newLen > this->len ? this->len : newLen;
@@ -95,11 +96,11 @@ struct IntArray
         this->len = newLen;
     }
 
-    void insertBefore(int value, int index)
+    void insertBefore(T value, int index)
     {
         assert(index >= 0 and index <= this->len);
 
-        int* tmpData = new int[this->len + 1]{};
+        int* tmpData = new T[this->len + 1]{};
         copyBeforeData(tmpData, index);
         tmpData[index] = value;
         for(int after = index; after < this->len; ++after)
@@ -122,7 +123,7 @@ struct IntArray
             return ;
         }
 
-        int* tmpData = new int[this->len]{};
+        int* tmpData = new T[this->len]{};
         copyBeforeData(tmpData, index);
         for(int after = index + 1; after < this->len; ++after)
         {
@@ -134,12 +135,12 @@ struct IntArray
         --this->len;
     }
 
-    void insertAtBegining(int value)
+    void insertAtBegining(T value)
     {
         insertBefore(value, 0);
     }
 
-    void insertAtEnd(int value)
+    void insertAtEnd(T value)
     {
         insertBefore(value, this->len);
     }
@@ -150,11 +151,11 @@ struct IntArray
     }
 
 private:
-    void setData(const IntArray& array)
+    void setData(const Array& array)
     {
         if(array.size() > 0)
         {
-            this->data = new int[array.size()]{};
+            this->data = new T[array.size()]{};
             for(int idx = 0; idx < array.size(); ++idx)
             {
                 this->data[idx] = array[idx];
@@ -172,7 +173,7 @@ private:
 
 private:
     int len;
-    int* data;
+    T* data;
 };
 
 #endif /* INTARRAY_H_ */
