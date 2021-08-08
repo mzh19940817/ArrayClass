@@ -20,12 +20,6 @@
 *.mod
 *.smod
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
 # Executables
 *.exe
 *.out
@@ -33,7 +27,6 @@
 
 #Others
 config.cmake
-3th/
 build/
 .cproject
 .project

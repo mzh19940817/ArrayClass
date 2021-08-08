@@ -3,12 +3,6 @@
 working_path=$PWD
 config_file=config.cmake
 
-if [ ! -d "3th/include/gtest" ]; then
-   echo "pls config your project by running config.sh"
-   echo "then install xUnit by running install.sh"
-   exit 0
-fi
-
 echo "try build ${working_path}"
 echo "*******************************************************************************"
 echo "start generate cmake project..."
