@@ -33,6 +33,7 @@
 
 #Others
 config.cmake
+3th/
 build/
 .cproject
 .project
