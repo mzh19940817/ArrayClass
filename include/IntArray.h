@@ -7,13 +7,47 @@ struct IntArray
 {
     IntArray() = default;
 
-    IntArray(int length) : length(length)
+    IntArray(int length) : len(length)
     {
-        assert(this->length >= 0);
-        if(this->length > 0)
+        assert(this->len >= 0);
+        if(this->len > 0)
         {
-            this->data = new int[this->length]{};
+            this->data = new int[this->len]{};
         }
+    }
+
+    IntArray(const IntArray& array)
+    {
+        this->len = array.size();
+        if(array.size() > 0)
+        {
+            this->data = new int[array.size()]{};
+            for(int idx = 0; idx < array.size(); ++idx)
+            {
+                this->data[idx] = array[idx];
+            }
+        }
+    }
+
+    IntArray& operator=(const IntArray& array)
+    {
+        if(this == &array)
+        {
+            return *this;
+        }
+
+        delete[] this->data;
+        this->len = array.size();
+        if(array.size() > 0)
+        {
+            this->data = new int[array.size()]{};
+            for(int idx = 0; idx < array.size(); ++idx)
+            {
+                this->data[idx] = array[idx];
+            }
+        }
+
+        return *this;
     }
 
     ~IntArray()
@@ -25,12 +59,12 @@ struct IntArray
     {
         delete[] this->data;
         this->data = nullptr;
-        this->length = 0;
+        this->len = 0;
     }
 
     int& operator [](int idx) const
     {
-        assert(idx >= 0 and idx < this->length);
+        assert(idx >= 0 and idx < this->len);
         return this->data[idx];
     }
 
@@ -44,12 +78,12 @@ struct IntArray
         }
 
         this->data = new int[newLen]{};
-        this->length = newLen;
+        this->len = newLen;
     }
 
     void resize(int newLen)
     {
-        if(this->length == newLen)
+        if(this->len == newLen)
         {
             return ;
         }
@@ -61,9 +95,9 @@ struct IntArray
         }
 
         int* tmpData = new int[newLen]{};
-        if(this->length > 0)
+        if(this->len > 0)
         {
-            int copyNum = newLen > this->length ? this->length : newLen;
+            int copyNum = newLen > this->len ? this->len : newLen;
             for(int idx = 0; idx < copyNum; ++idx)
             {
                 tmpData[idx] = data[idx];
@@ -72,52 +106,52 @@ struct IntArray
 
         delete[] this->data;
         this->data = tmpData;
-        this->length = newLen;
+        this->len = newLen;
     }
 
     void insertBefore(int value, int index)
     {
-        assert(index >= 0 and index <= this->length);
+        assert(index >= 0 and index <= this->len);
 
-        int* tmpData = new int[this->length + 1]{};
+        int* tmpData = new int[this->len + 1]{};
         for(int before = 0; before < index; ++ before)
         {
             tmpData[before] = this->data[before];
         }
         tmpData[index] = value;
-        for(int after = index; after < this->length; ++after)
+        for(int after = index; after < this->len; ++after)
         {
             tmpData[after + 1] = this->data[after];
         }
 
         delete[] this->data;
         this->data = tmpData;
-        ++this->length;
+        ++this->len;
     }
 
     void remove(int index)
     {
-        assert(index >= 0 and index < this->length);
+        assert(index >= 0 and index < this->len);
 
-        if(this->length == 1)
+        if(this->len == 1)
         {
             erase();
             return ;
         }
 
-        int* tmpData = new int[this->length]{};
+        int* tmpData = new int[this->len]{};
         for(int before = 0; before < index; ++before)
         {
-            tmpData[index] = this->data[index];
+            tmpData[before] = this->data[before];
         }
-        for(int after = index + 1; after < this->length; ++after)
+        for(int after = index + 1; after < this->len; ++after)
         {
             tmpData[after - 1] = this->data[after];
         }
 
         delete[] this->data;
         this->data = tmpData;
-        --this->length;
+        --this->len;
     }
 
     void insertAtBegining(int value)
@@ -127,16 +161,16 @@ struct IntArray
 
     void insertAtEnd(int value)
     {
-        insertBefore(value, this->length);
+        insertBefore(value, this->len);
     }
 
     int size() const
     {
-        return this->length;
+        return this->len;
     }
 
 private:
-    int length;
+    int len;
     int* data;
 };
 

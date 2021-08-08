@@ -21,11 +21,31 @@ struct IntArrayTest : testing::Test
     }
 };
 
-TEST_F(IntArrayTest, test_normal_constructor)
+TEST_F(IntArrayTest, test_constructor)
 {
     IntArray array{3};
     initArr(array);
     assertArr(array, 3);
+}
+
+TEST_F(IntArrayTest, test_copy_constructor)
+{
+    IntArray array{3};
+    initArr(array);
+    assertArr(array, 3);
+
+    IntArray arrayTmp{array};
+    assertArr(arrayTmp, 3);
+}
+
+TEST_F(IntArrayTest, test_assignment_constructor)
+{
+    IntArray array{3};
+    initArr(array);
+    assertArr(array, 3);
+
+    IntArray arrayTmp = array;
+    assertArr(arrayTmp, 3);
 }
 
 TEST_F(IntArrayTest, test_function_size)
