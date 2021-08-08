@@ -19,14 +19,7 @@ struct IntArray
     IntArray(const IntArray& array)
     {
         this->len = array.size();
-        if(array.size() > 0)
-        {
-            this->data = new int[array.size()]{};
-            for(int idx = 0; idx < array.size(); ++idx)
-            {
-                this->data[idx] = array[idx];
-            }
-        }
+        setData(array);
     }
 
     IntArray& operator=(const IntArray& array)
@@ -38,14 +31,7 @@ struct IntArray
 
         delete[] this->data;
         this->len = array.size();
-        if(array.size() > 0)
-        {
-            this->data = new int[array.size()]{};
-            for(int idx = 0; idx < array.size(); ++idx)
-            {
-                this->data[idx] = array[idx];
-            }
-        }
+        setData(array);
 
         return *this;
     }
@@ -114,10 +100,7 @@ struct IntArray
         assert(index >= 0 and index <= this->len);
 
         int* tmpData = new int[this->len + 1]{};
-        for(int before = 0; before < index; ++ before)
-        {
-            tmpData[before] = this->data[before];
-        }
+        copyBeforeData(tmpData, index);
         tmpData[index] = value;
         for(int after = index; after < this->len; ++after)
         {
@@ -140,10 +123,7 @@ struct IntArray
         }
 
         int* tmpData = new int[this->len]{};
-        for(int before = 0; before < index; ++before)
-        {
-            tmpData[before] = this->data[before];
-        }
+        copyBeforeData(tmpData, index);
         for(int after = index + 1; after < this->len; ++after)
         {
             tmpData[after - 1] = this->data[after];
@@ -167,6 +147,27 @@ struct IntArray
     int size() const
     {
         return this->len;
+    }
+
+private:
+    void setData(const IntArray& array)
+    {
+        if(array.size() > 0)
+        {
+            this->data = new int[array.size()]{};
+            for(int idx = 0; idx < array.size(); ++idx)
+            {
+                this->data[idx] = array[idx];
+            }
+        }
+    }
+
+    void copyBeforeData(int* tmpData, const int index) const
+    {
+        for(int before = 0; before < index; ++before)
+        {
+            tmpData[before] = this->data[before];
+        }
     }
 
 private:
